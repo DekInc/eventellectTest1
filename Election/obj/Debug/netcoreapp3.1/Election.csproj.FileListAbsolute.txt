@@ -1,0 +1,13 @@
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\bin\Debug\netcoreapp3.1\Election.exe
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\bin\Debug\netcoreapp3.1\Election.deps.json
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\bin\Debug\netcoreapp3.1\Election.runtimeconfig.json
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\bin\Debug\netcoreapp3.1\Election.runtimeconfig.dev.json
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\bin\Debug\netcoreapp3.1\Election.dll
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\bin\Debug\netcoreapp3.1\Election.pdb
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\obj\Debug\netcoreapp3.1\Election.csproj.AssemblyReference.cache
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\obj\Debug\netcoreapp3.1\Election.AssemblyInfoInputs.cache
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\obj\Debug\netcoreapp3.1\Election.AssemblyInfo.cs
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\obj\Debug\netcoreapp3.1\Election.csproj.CoreCompileInputs.cache
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\obj\Debug\netcoreapp3.1\Election.dll
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\obj\Debug\netcoreapp3.1\Election.pdb
+C:\Users\Dek\Documents\Git\eventellectTest1\Election\obj\Debug\netcoreapp3.1\Election.genruntimeconfig.cache
