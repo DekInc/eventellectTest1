@@ -45,28 +45,19 @@ namespace Election.Objects
 
         public override List<RankedChoiceBallot> GenerateBallots(IEnumerable<IVoter> voters, IList<ICandidate> candidates) => GenerateBallots(voters, candidates, null);
         public List<RankedChoiceBallot> GenerateBallots(IEnumerable<IVoter> voters, IList<ICandidate> candidates, IList<SimpleBallot> simpleBallots)
-        { //50% perf improvement 
+        { //80% perf improvement 
             List<RankedChoiceBallot> ballots = new List<RankedChoiceBallot>();
             int[] candidateIds = candidates.Select(C => C.Id).ToArray();
-            int totalCandidates = candidateIds.Length, rank = 1;
-            Dictionary<int, ICandidate> candidatesFastArray = candidates.ToDictionary(C => C.Id);
+            int totalCandidates = candidateIds.Length;
             //Parallel.ForEach(voters, voter => { // No gain
             foreach (IVoter voter in voters) {
                 List<RankedChoiceVote> votes = new List<RankedChoiceVote>();
                 int[] candidateIdsShuffled;
-                rank = 1;
-                if (voter is SimpleCandidate) {
-                    candidateIdsShuffled = candidateIds.Skip(1).OrderBy(X1 => _random.Next()).ToArray();
-                    votes.Add(new RankedChoiceVote(voter, voter as SimpleCandidate, rank));
-                    rank++;
-                } else {
+                if (voter is SimpleCandidate)
+                    candidateIdsShuffled = candidateIds.SkipLast(totalCandidates - 1).Union(candidateIds.Skip(1).OrderBy(X1 => _random.Next())).ToArray();
+                else
                     candidateIdsShuffled = candidateIds.OrderBy(X1 => _random.Next()).ToArray();
-                }
-				for (int i = 0; i < candidateIdsShuffled.Length; i++) {
-					ICandidate nextCandidate = candidatesFastArray[candidateIdsShuffled[i]];
-					votes.Add(new RankedChoiceVote(voter, nextCandidate, rank));
-                    rank++;
-                }
+                votes.Add(new RankedChoiceVote(voter, null, candidateIdsShuffled));
                 ballots.Add(new RankedChoiceBallot(votes));
             }
             return ballots;

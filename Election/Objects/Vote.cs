@@ -1,4 +1,5 @@
-﻿using Election.Interfaces;
+﻿using System.Linq;
+using Election.Interfaces;
 
 namespace Election.Objects
 {
@@ -19,11 +20,14 @@ namespace Election.Objects
     }
 
     public class RankedChoiceVote : Vote
-    {
-        public int Rank { get; set; }
-        public RankedChoiceVote(IVoter voter, ICandidate candidate, int rank) : base(voter, candidate)
+    {   
+        public int[] CandidatePreferences { get; private set; }
+        public RankedChoiceVote(IVoter voter, ICandidate candidate, int[] candidatePreferences) : base(voter, candidate)
         {
-            this.Rank = rank;
+            this.CandidatePreferences = candidatePreferences;
+        }
+        public void EliminateOne(){
+            CandidatePreferences = CandidatePreferences.Skip(1).ToArray();
         }
     }
 }

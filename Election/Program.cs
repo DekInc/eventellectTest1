@@ -41,6 +41,7 @@ namespace Election
             RunRankedChoiceElection(voters, simpleBallots);
             stopwatch3.Stop();
             Console.WriteLine($"RunRankedChoiceElection: {stopwatch3.ElapsedMilliseconds} ms");
+            Console.WriteLine("End. Press ENTER");
             Console.ReadLine();
         }
 
@@ -77,9 +78,9 @@ namespace Election
             List<RankedChoiceBallot> rankedChoiceBallots = rankedChoiceVoteGenerator.GenerateBallots(voters, _candidates, simpleBallots);
             RankedChoiceElection rankedChoiceElection = new RankedChoiceElection(rankedChoiceBallots, _candidates);
             Stopwatch stopwatch = Stopwatch.StartNew();
-            //ICandidate rankedChoiceWinner = new RankedChoiceElectionRunner().RunElection(rankedChoiceElection);
+            ICandidate rankedChoiceWinner = new RankedChoiceElectionRunner().RunElection(rankedChoiceElection);
             stopwatch.Stop();
-            //Console.WriteLine($"The ranked choice winner is {rankedChoiceWinner.Name}. RunElection Exec time: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"The ranked choice winner is {rankedChoiceWinner.Name}. RunElection Exec time: {stopwatch.ElapsedMilliseconds} ms");
         }
     }
 }

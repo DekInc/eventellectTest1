@@ -31,15 +31,15 @@ namespace Election.Objects
 			foreach (ICandidate candidate in Candidates) {
                 numberVotes.Add(candidate.Id, new VoteResult(candidate));
 			}
-			foreach (SimpleBallot ballot in Ballots) {
+            long totalVotes = Ballots.Count();
+            foreach (SimpleBallot ballot in Ballots) {
                 if (ballot.Votes != null) {
-                    IVote vote = ballot.Votes.FirstOrDefault();
+                    SimpleVote vote = ballot.Votes.FirstOrDefault();
                     if (vote != null) {
                         numberVotes[vote.Candidate.Id].NumVotes = numberVotes[vote.Candidate.Id].NumVotes + 1;
                     }
                 }
 			}
-            long totalVotes = Ballots.Count();            
             for (int i = 0; i < numberVotes.Count; i++) {
                 numberVotes.ElementAt(i).Value.NumVotesPercentage = 1.0f * numberVotes.ElementAt(i).Value.NumVotes / totalVotes;
                 Console.WriteLine($"Candidate {numberVotes.ElementAt(i).Key} - {numberVotes.ElementAt(i).Value.Candidate.Name} got {numberVotes.ElementAt(i).Value.NumVotes} votes or {numberVotes.ElementAt(i).Value.NumVotesPercentage * 100:F4} %");
@@ -56,25 +56,49 @@ namespace Election.Objects
         {
             //throw new NotImplementedException();
             //Ballots.First().Votes.First().Voter
-            Winner = Candidates.First();
-            //Dictionary<int, VoteResult> numberVotes = new Dictionary<int, VoteResult>();
-            //foreach (ICandidate candidate in Candidates) {
-            //    numberVotes.Add(candidate.Id, new VoteResult(candidate));
-            //}
-            //foreach (RankedChoiceBallot ballot in Ballots) {
-            //    if (ballot.Votes != null) {
-            //        IVote vote = ballot.Votes.FirstOrDefault();
-            //        if (vote != null) {
-            //            numberVotes[vote.Candidate.Id].NumVotes = numberVotes[vote.Candidate.Id].NumVotes + 1;
-            //        }
-            //    }
-            //}
-            //long totalVotes = Ballots.Count();
-            //for (int i = 0; i < numberVotes.Count; i++) {
-            //    numberVotes.ElementAt(i).Value.NumVotesPercentage = 1.0f * numberVotes.ElementAt(i).Value.NumVotes / totalVotes;
-            //    Console.WriteLine($"Candidate {numberVotes.ElementAt(i).Key} - {numberVotes.ElementAt(i).Value.Candidate.Name} got {numberVotes.ElementAt(i).Value.NumVotes} votes or {numberVotes.ElementAt(i).Value.NumVotesPercentage * 100:F4} %");
-            //}
-            //Winner = numberVotes.OrderByDescending(V => V.Value.NumVotes).FirstOrDefault().Value.Candidate;
+            Dictionary<int, VoteResult> VotesPerCandidate = new Dictionary<int, VoteResult>();
+            foreach (ICandidate candidate in Candidates) {
+                VotesPerCandidate.Add(candidate.Id, new VoteResult(candidate));
+            }
+            long totalVotes = Ballots.Count();
+            long totalVotesToWin = (totalVotes / 2) + 1;
+            int totalCandidates = Candidates.Count();
+            while (VotesPerCandidate.Where(Cl => !Cl.Value.Eliminated).Count() >= 2) {
+                foreach (RankedChoiceBallot ballot in Ballots) {
+                    if (ballot.Votes != null) {
+                        RankedChoiceVote vote = ballot.Votes.FirstOrDefault();
+                        if (vote != null) {
+                            if (!VotesPerCandidate[vote.CandidatePreferences.FirstOrDefault()].Eliminated)
+                                VotesPerCandidate[vote.CandidatePreferences.FirstOrDefault()].NumVotes = VotesPerCandidate[vote.CandidatePreferences.FirstOrDefault()].NumVotes + 1;
+                        }
+                    }
+                }
+                Console.WriteLine($"Rank # {totalCandidates - VotesPerCandidate.Where(Vpc => !Vpc.Value.Eliminated).Count() + 1}");
+                totalVotes = VotesPerCandidate.Sum(Vs => Vs.Value.NumVotes);
+                totalVotesToWin = (totalVotes / 2) + 1;
+                for (int i = 0; i < VotesPerCandidate.Count; i++) {
+                    VotesPerCandidate.ElementAt(i).Value.NumVotesPercentage = 1.0f * VotesPerCandidate.ElementAt(i).Value.NumVotes / totalVotes;
+                    Console.WriteLine($"Candidate {VotesPerCandidate.ElementAt(i).Key} - {VotesPerCandidate.ElementAt(i).Value.Candidate.Name} got {VotesPerCandidate.ElementAt(i).Value.NumVotes} votes or {VotesPerCandidate.ElementAt(i).Value.NumVotesPercentage * 100:F4} % {(VotesPerCandidate.ElementAt(i).Value.Eliminated? "- Eliminated -" : "")}");
+                }
+                ICandidate eliminated = VotesPerCandidate.Where(Vd => !Vd.Value.Eliminated).OrderByDescending(V => V.Value.NumVotes).LastOrDefault().Value.Candidate;
+                VotesPerCandidate[eliminated.Id].Eliminated = true;
+                foreach (RankedChoiceBallot ballot in Ballots) {
+                    if (ballot.Votes != null) {
+                        RankedChoiceVote vote = ballot.Votes.FirstOrDefault();
+                        if (vote != null) {
+                            if (vote.CandidatePreferences.FirstOrDefault() == eliminated.Id)
+                                vote.EliminateOne();
+                        }
+                    }
+                }
+                if (VotesPerCandidate.Where(Cv => Cv.Value.NumVotes >= totalVotesToWin).Count() > 0) break;
+                for (int i = 0; i < VotesPerCandidate.Count; i++) {
+                    VotesPerCandidate.ElementAt(i).Value.NumVotes = 0;
+                    VotesPerCandidate.ElementAt(i).Value.NumVotesPercentage = 0;
+                }
+            }
+            //Que pasa si los 2 candidatos restantes tienen votos iguales?
+            Winner = VotesPerCandidate.OrderByDescending(V => V.Value.NumVotes).FirstOrDefault().Value.Candidate;
         }
     }
 }
