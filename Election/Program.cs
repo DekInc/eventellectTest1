@@ -9,7 +9,7 @@ using Election.Objects;
 
 namespace Election
 {
-    class Program
+    public class Program
     {
         static Random _random = new Random();
         static List<ICandidate> _candidates = new List<ICandidate>
@@ -46,7 +46,7 @@ namespace Election
             Console.ReadLine();
         }
 
-        private static List<IVoter> GenerateVoters(int numVoters, int totalVoters)
+        public static List<IVoter> GenerateVoters(int numVoters, int totalVoters)
         {
             string voterFormat = $"{{0:{Regex.Replace(totalVoters.ToString(), "[1-9]", "0")}}}";
             List<IVoter> voters = new List<IVoter>(totalVoters);
@@ -62,7 +62,7 @@ namespace Election
             return voters;
         }
 
-        private static void RunSimpleElection(List<IVoter> voters, out List<SimpleBallot> simpleBallots)
+        public static void RunSimpleElection(List<IVoter> voters, out List<SimpleBallot> simpleBallots)
         {
             SimpleBallotGenerator simpleVoteGenerator = new SimpleBallotGenerator(_random);
             simpleBallots = simpleVoteGenerator.GenerateBallots(voters, _candidates);
