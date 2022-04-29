@@ -26,7 +26,7 @@ namespace Election
 
         static void Main(string[] _)
         {
-            int numVoters = 100000;
+            int numVoters = 200000;
             int totalVoters = numVoters + _candidates.Count;
             Stopwatch stopwatch = Stopwatch.StartNew();
             List<IVoter> voters = GenerateVoters(numVoters, totalVoters);
@@ -37,6 +37,7 @@ namespace Election
             RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
             stopwatch2.Stop();
             Console.WriteLine($"RunSimpleElection: {stopwatch2.ElapsedMilliseconds} ms");
+            Console.WriteLine("Running RankedChoiceElection");
             Stopwatch stopwatch3 = Stopwatch.StartNew();
             RunRankedChoiceElection(voters, simpleBallots);
             stopwatch3.Stop();
