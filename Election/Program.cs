@@ -26,12 +26,13 @@ namespace Election
 
         static void Main(string[] _)
         {
-            int numVoters = 100000;
+            int numVoters = 1000000;
             int totalVoters = numVoters + _candidates.Count;
             Stopwatch stopwatch = Stopwatch.StartNew();
             List<IVoter> voters = GenerateVoters(numVoters, totalVoters);
             stopwatch.Stop();
-            Console.WriteLine($"GenerateVoters: {stopwatch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Voters: {numVoters}");
+            Console.WriteLine($"GenerateVoters exec time: {stopwatch.ElapsedMilliseconds} ms");
             Stopwatch stopwatch2 = Stopwatch.StartNew();
             RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
             stopwatch2.Stop();
@@ -76,9 +77,9 @@ namespace Election
             List<RankedChoiceBallot> rankedChoiceBallots = rankedChoiceVoteGenerator.GenerateBallots(voters, _candidates, simpleBallots);
             RankedChoiceElection rankedChoiceElection = new RankedChoiceElection(rankedChoiceBallots, _candidates);
             Stopwatch stopwatch = Stopwatch.StartNew();
-            ICandidate rankedChoiceWinner = new RankedChoiceElectionRunner().RunElection(rankedChoiceElection);
+            //ICandidate rankedChoiceWinner = new RankedChoiceElectionRunner().RunElection(rankedChoiceElection);
             stopwatch.Stop();
-            Console.WriteLine($"The ranked choice winner is {rankedChoiceWinner.Name}. RunElection Exec time: {stopwatch.ElapsedMilliseconds} ms");
+            //Console.WriteLine($"The ranked choice winner is {rankedChoiceWinner.Name}. RunElection Exec time: {stopwatch.ElapsedMilliseconds} ms");
         }
     }
 }

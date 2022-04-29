@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Election.Interfaces;
 
@@ -47,31 +45,31 @@ namespace Election.Objects
 
         public override List<RankedChoiceBallot> GenerateBallots(IEnumerable<IVoter> voters, IList<ICandidate> candidates) => GenerateBallots(voters, candidates, null);
         public List<RankedChoiceBallot> GenerateBallots(IEnumerable<IVoter> voters, IList<ICandidate> candidates, IList<SimpleBallot> simpleBallots)
-        {
-            int rank;
-            Dictionary<int, SimpleVote> simpleBallotByVoterId = simpleBallots?.SelectMany(b => b.Votes).ToDictionary(v => v.Voter.Id) ?? new Dictionary<int, SimpleVote>();
+        { //50% perf improvement 
             List<RankedChoiceBallot> ballots = new List<RankedChoiceBallot>();
-            SortedList<int, ICandidate> remainingCandidatesSL = new SortedList<int, ICandidate>(candidates.ToDictionary(c => c.Id));
+            int[] candidateIds = candidates.Select(C => C.Id).ToArray();
+            int totalCandidates = candidateIds.Length, rank = 1;
+            Dictionary<int, ICandidate> candidatesFastArray = candidates.ToDictionary(C => C.Id);
+            //Parallel.ForEach(voters, voter => { // No gain
             foreach (IVoter voter in voters) {
-				List<RankedChoiceVote> votes = new List<RankedChoiceVote>();
-				rank = 1;
-                SortedList<int, ICandidate> remainingCandidates = new SortedList<int, ICandidate>(remainingCandidatesSL);
-                // use SimpleVote as Rank 1
-                if (simpleBallotByVoterId.TryGetValue(voter.Id, out SimpleVote simpleVote)) {
-					votes.Add(new RankedChoiceVote(voter, simpleVote.Candidate, 1));
-					remainingCandidates.Remove(simpleVote.Candidate.Id);
-					rank = 2;
-				}
-
-				while (remainingCandidates.Count > 0) {
-					ICandidate nextCandidate = remainingCandidates.ElementAt(_random.Next(remainingCandidates.Count - 1)).Value;
-					votes.Add(new RankedChoiceVote(voter, nextCandidate, rank++));
-					remainingCandidates.Remove(nextCandidate.Id);
-				}
-
-				ballots.Add(new RankedChoiceBallot(votes));
-			}
-			return ballots;
+                List<RankedChoiceVote> votes = new List<RankedChoiceVote>();
+                int[] candidateIdsShuffled;
+                rank = 1;
+                if (voter is SimpleCandidate) {
+                    candidateIdsShuffled = candidateIds.Skip(1).OrderBy(X1 => _random.Next()).ToArray();
+                    votes.Add(new RankedChoiceVote(voter, voter as SimpleCandidate, rank));
+                    rank++;
+                } else {
+                    candidateIdsShuffled = candidateIds.OrderBy(X1 => _random.Next()).ToArray();
+                }
+				for (int i = 0; i < candidateIdsShuffled.Length; i++) {
+					ICandidate nextCandidate = candidatesFastArray[candidateIdsShuffled[i]];
+					votes.Add(new RankedChoiceVote(voter, nextCandidate, rank));
+                    rank++;
+                }
+                ballots.Add(new RankedChoiceBallot(votes));
+            }
+            return ballots;
         }
     }
 }
