@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Election.Interfaces;
 
@@ -25,13 +27,14 @@ namespace Election.Objects
         public override List<SimpleBallot> GenerateBallots(IEnumerable<IVoter> voters, IList<ICandidate> candidates)
         {
             List<SimpleBallot> ballots = new List<SimpleBallot>();
+            int numCandidates = candidates.Count();
+            SimpleVote vote;
             foreach (IVoter voter in voters)
-            {
-                SimpleVote vote;
+            {   
                 if (voter is ICandidate candidate)
                     vote = new SimpleVote(voter, candidate);
                 else
-                    vote = new SimpleVote(voter, candidates[_random.Next(0, candidates.Count() - 1)]);
+                    vote = new SimpleVote(voter, candidates[_random.Next(0, numCandidates - 1)]);
                 ballots.Add(new SimpleBallot(vote));
             }
             return ballots;
@@ -45,32 +48,30 @@ namespace Election.Objects
         public override List<RankedChoiceBallot> GenerateBallots(IEnumerable<IVoter> voters, IList<ICandidate> candidates) => GenerateBallots(voters, candidates, null);
         public List<RankedChoiceBallot> GenerateBallots(IEnumerable<IVoter> voters, IList<ICandidate> candidates, IList<SimpleBallot> simpleBallots)
         {
+            int rank;
             Dictionary<int, SimpleVote> simpleBallotByVoterId = simpleBallots?.SelectMany(b => b.Votes).ToDictionary(v => v.Voter.Id) ?? new Dictionary<int, SimpleVote>();
             List<RankedChoiceBallot> ballots = new List<RankedChoiceBallot>();
-            foreach (IVoter voter in voters)
-            {
-                List<RankedChoiceVote> votes = new List<RankedChoiceVote>();
-                int rank = 1;
-                SortedList<int, ICandidate> remainingCandidates = new SortedList<int, ICandidate>(candidates.ToDictionary(c => c.Id));
-
+            SortedList<int, ICandidate> remainingCandidatesSL = new SortedList<int, ICandidate>(candidates.ToDictionary(c => c.Id));
+            foreach (IVoter voter in voters) {
+				List<RankedChoiceVote> votes = new List<RankedChoiceVote>();
+				rank = 1;
+                SortedList<int, ICandidate> remainingCandidates = new SortedList<int, ICandidate>(remainingCandidatesSL);
                 // use SimpleVote as Rank 1
-                if (simpleBallotByVoterId.TryGetValue(voter.Id, out SimpleVote simpleVote))
-                {
-                    votes.Add(new RankedChoiceVote(voter, simpleVote.Candidate, 1));
-                    remainingCandidates.Remove(simpleVote.Candidate.Id);
-                    rank = 2;
-                }
+                if (simpleBallotByVoterId.TryGetValue(voter.Id, out SimpleVote simpleVote)) {
+					votes.Add(new RankedChoiceVote(voter, simpleVote.Candidate, 1));
+					remainingCandidates.Remove(simpleVote.Candidate.Id);
+					rank = 2;
+				}
 
-                while (remainingCandidates.Any())
-                {
-                    ICandidate nextCandidate = remainingCandidates.ElementAt(_random.Next(remainingCandidates.Count - 1)).Value;
-                    votes.Add(new RankedChoiceVote(voter, nextCandidate, rank++));
-                    remainingCandidates.Remove(nextCandidate.Id);
-                }
+				while (remainingCandidates.Count > 0) {
+					ICandidate nextCandidate = remainingCandidates.ElementAt(_random.Next(remainingCandidates.Count - 1)).Value;
+					votes.Add(new RankedChoiceVote(voter, nextCandidate, rank++));
+					remainingCandidates.Remove(nextCandidate.Id);
+				}
 
-                ballots.Add(new RankedChoiceBallot(votes));
-            }
-            return ballots;
+				ballots.Add(new RankedChoiceBallot(votes));
+			}
+			return ballots;
         }
     }
 }

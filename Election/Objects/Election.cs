@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Election.Interfaces;
 
 namespace Election.Objects
@@ -26,7 +26,25 @@ namespace Election.Objects
 
         public override void CountVotes()
         {
-            throw new NotImplementedException();
+            //Winner = Candidates.First();
+            Dictionary<int, VoteResult> numberVotes = new Dictionary<int, VoteResult>();
+			foreach (ICandidate candidate in Candidates) {
+                numberVotes.Add(candidate.Id, new VoteResult(candidate));
+			}
+			foreach (SimpleBallot ballot in Ballots) {
+                if (ballot.Votes != null) {
+                    IVote vote = ballot.Votes.FirstOrDefault();
+                    if (vote != null) {
+                        numberVotes[vote.Candidate.Id].NumVotes = numberVotes[vote.Candidate.Id].NumVotes + 1;
+                    }
+                }
+			}
+            long totalVotes = Ballots.Count();            
+            for (int i = 0; i < numberVotes.Count; i++) {
+                numberVotes.ElementAt(i).Value.NumVotesPercentage = 1.0f * numberVotes.ElementAt(i).Value.NumVotes / totalVotes;
+                Console.WriteLine($"Candidate {numberVotes.ElementAt(i).Key} - {numberVotes.ElementAt(i).Value.Candidate.Name} got {numberVotes.ElementAt(i).Value.NumVotes} votes or {numberVotes.ElementAt(i).Value.NumVotesPercentage * 100:F4} %");
+			}
+            Winner = numberVotes.OrderByDescending(V => V.Value.NumVotes).FirstOrDefault().Value.Candidate;
         }
     }
 
@@ -36,7 +54,8 @@ namespace Election.Objects
 
         public override void CountVotes()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            Winner = Candidates.First();
         }
     }
 }
