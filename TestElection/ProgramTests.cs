@@ -53,21 +53,59 @@ namespace Election.Tests {
             int numVoters = 100000;
             int totalVoters = numVoters + _candidates.Count;
             List<IVoter> voters = Election.Program.GenerateVoters(numVoters, totalVoters);
-            Election.Program.RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
+            ICandidate thisWinner = Election.Program.RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
+            Assert.AreNotEqual(thisWinner, null);
         }
         [TestMethod()]
         public void RunSimpleElection1000000() {
             int numVoters = 1000000;
             int totalVoters = numVoters + _candidates.Count;
             List<IVoter> voters = Election.Program.GenerateVoters(numVoters, totalVoters);
-            Election.Program.RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
+            ICandidate thisWinner = Election.Program.RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
+            Assert.AreNotEqual(thisWinner, null);
         }
         [TestMethod()]
         public void RunSimpleElection10000000() {
             int numVoters = 10000000;
             int totalVoters = numVoters + _candidates.Count;
             List<IVoter> voters = Election.Program.GenerateVoters(numVoters, totalVoters);
+            ICandidate thisWinner = Election.Program.RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
+            Assert.AreNotEqual(thisWinner, null);
+        }
+        [TestMethod()]
+        public void RunToFailSimpleElection2() {
+            int numVoters = 2;
+            int totalVoters = numVoters + _candidates.Count;
+            List<IVoter> voters = Election.Program.GenerateVoters(numVoters, totalVoters);
+            ICandidate thisWinner = Election.Program.RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
+            Assert.AreNotEqual(thisWinner, null);
+        }
+        [TestMethod()]
+        public void RunRCVElection100000() {
+            int numVoters = 100000;
+            int totalVoters = numVoters + _candidates.Count;
+            List<IVoter> voters = Election.Program.GenerateVoters(numVoters, totalVoters);
             Election.Program.RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
+            ICandidate thisWinner = Election.Program.RunRankedChoiceElection(voters, simpleBallots);
+            Assert.AreNotEqual(thisWinner, null);
+        }
+        [TestMethod()]
+        public void RunRCVElection1000000() {
+            int numVoters = 1000000;
+            int totalVoters = numVoters + _candidates.Count;
+            List<IVoter> voters = Election.Program.GenerateVoters(numVoters, totalVoters);
+            Election.Program.RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
+            ICandidate thisWinner = Election.Program.RunRankedChoiceElection(voters, simpleBallots);
+            Assert.AreNotEqual(thisWinner, null);
+        }
+        [TestMethod()]
+        public void RunRCVElection10000000() {
+            int numVoters = 10000000;
+            int totalVoters = numVoters + _candidates.Count;
+            List<IVoter> voters = Election.Program.GenerateVoters(numVoters, totalVoters);
+            Election.Program.RunSimpleElection(voters, out List<SimpleBallot> simpleBallots);
+            ICandidate thisWinner = Election.Program.RunRankedChoiceElection(voters, simpleBallots);
+            Assert.AreNotEqual(thisWinner, null);
         }
     }
 }

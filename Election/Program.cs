@@ -62,7 +62,7 @@ namespace Election
             return voters;
         }
 
-        public static void RunSimpleElection(List<IVoter> voters, out List<SimpleBallot> simpleBallots)
+        public static ICandidate RunSimpleElection(List<IVoter> voters, out List<SimpleBallot> simpleBallots)
         {
             SimpleBallotGenerator simpleVoteGenerator = new SimpleBallotGenerator(_random);
             simpleBallots = simpleVoteGenerator.GenerateBallots(voters, _candidates);
@@ -71,9 +71,10 @@ namespace Election
             ICandidate simpleWinner = new SimpleElectionRunner().RunElection(simpleElection);
             stopwatch.Stop();
             Console.WriteLine($"The simple majority winner is {simpleWinner.Name}. RunElection Exec time: {stopwatch.ElapsedMilliseconds} ms");
+            return simpleWinner;
         }
 
-        private static void RunRankedChoiceElection(List<IVoter> voters, List<SimpleBallot> simpleBallots = null)
+        public static ICandidate RunRankedChoiceElection(List<IVoter> voters, List<SimpleBallot> simpleBallots = null)
         {
             RankedChoiceBallotGenerator rankedChoiceVoteGenerator = new RankedChoiceBallotGenerator(_random);
             List<RankedChoiceBallot> rankedChoiceBallots = rankedChoiceVoteGenerator.GenerateBallots(voters, _candidates, simpleBallots);
@@ -82,6 +83,7 @@ namespace Election
             ICandidate rankedChoiceWinner = new RankedChoiceElectionRunner().RunElection(rankedChoiceElection);
             stopwatch.Stop();
             Console.WriteLine($"The ranked choice winner is {rankedChoiceWinner.Name}. RunElection Exec time: {stopwatch.ElapsedMilliseconds} ms");
+            return rankedChoiceWinner;
         }
     }
 }

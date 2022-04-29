@@ -1,0 +1,73 @@
+Candidate 10001 - Eric Adams got 142755 votes or 14,2754 %
+Candidate 10002 - Shaun Donovan got 143263 votes or 14,3262 %
+Candidate 10003 - Kathryn Garcia got 142680 votes or 14,2679 %
+Candidate 10004 - Raymond McGuire got 142598 votes or 14,2597 %
+Candidate 10005 - Dianne Morales got 143105 votes or 14,3104 %
+Candidate 10006 - Scott Stringer got 142610 votes or 14,2609 %
+Candidate 10007 - Maya Wiley got 142996 votes or 14,2995 %
+Candidate 10008 - Andrew Yang got 1 votes or 0,0001 %
+The simple majority winner is Shaun Donovan. RunElection Exec time: 97 ms
+Rank # 1
+Candidate 10001 - Eric Adams got 124887 votes or 12,4886 % 
+Candidate 10002 - Shaun Donovan got 124449 votes or 12,4448 % 
+Candidate 10003 - Kathryn Garcia got 124869 votes or 12,4868 % 
+Candidate 10004 - Raymond McGuire got 125771 votes or 12,5770 % 
+Candidate 10005 - Dianne Morales got 125544 votes or 12,5543 % 
+Candidate 10006 - Scott Stringer got 124840 votes or 12,4839 % 
+Candidate 10007 - Maya Wiley got 124661 votes or 12,4660 % 
+Candidate 10008 - Andrew Yang got 124987 votes or 12,4986 % 
+Rank # 2
+Candidate 10001 - Eric Adams got 142754 votes or 14,2753 % 
+Candidate 10002 - Shaun Donovan got 0 votes or 0,0000 % - Eliminated -
+Candidate 10003 - Kathryn Garcia got 142752 votes or 14,2751 % 
+Candidate 10004 - Raymond McGuire got 143556 votes or 14,3555 % 
+Candidate 10005 - Dianne Morales got 143727 votes or 14,3726 % 
+Candidate 10006 - Scott Stringer got 142449 votes or 14,2448 % 
+Candidate 10007 - Maya Wiley got 142167 votes or 14,2166 % 
+Candidate 10008 - Andrew Yang got 142603 votes or 14,2602 % 
+Rank # 3
+Candidate 10001 - Eric Adams got 163304 votes or 16,6292 % 
+Candidate 10002 - Shaun Donovan got 0 votes or 0,0000 % - Eliminated -
+Candidate 10003 - Kathryn Garcia got 163378 votes or 16,6368 % 
+Candidate 10004 - Raymond McGuire got 164275 votes or 16,7281 % 
+Candidate 10005 - Dianne Morales got 164431 votes or 16,7440 % 
+Candidate 10006 - Scott Stringer got 163129 votes or 16,6114 % 
+Candidate 10007 - Maya Wiley got 0 votes or 0,0000 % - Eliminated -
+Candidate 10008 - Andrew Yang got 163512 votes or 16,6504 % 
+Rank # 4
+Candidate 10001 - Eric Adams got 187592 votes or 19,9488 % 
+Candidate 10002 - Shaun Donovan got 0 votes or 0,0000 % - Eliminated -
+Candidate 10003 - Kathryn Garcia got 187657 votes or 19,9558 % 
+Candidate 10004 - Raymond McGuire got 188433 votes or 20,0383 % 
+Candidate 10005 - Dianne Morales got 188920 votes or 20,0901 % 
+Candidate 10006 - Scott Stringer got 0 votes or 0,0000 % - Eliminated -
+Candidate 10007 - Maya Wiley got 0 votes or 0,0000 % - Eliminated -
+Candidate 10008 - Andrew Yang got 187763 votes or 19,9670 % 
+Rank # 5
+Candidate 10001 - Eric Adams got 0 votes or 0,0000 % - Eliminated -
+Candidate 10002 - Shaun Donovan got 0 votes or 0,0000 % - Eliminated -
+Candidate 10003 - Kathryn Garcia got 216464 votes or 24,9567 % 
+Candidate 10004 - Raymond McGuire got 217273 votes or 25,0500 % 
+Candidate 10005 - Dianne Morales got 217268 votes or 25,0494 % 
+Candidate 10006 - Scott Stringer got 0 votes or 0,0000 % - Eliminated -
+Candidate 10007 - Maya Wiley got 0 votes or 0,0000 % - Eliminated -
+Candidate 10008 - Andrew Yang got 216353 votes or 24,9439 % 
+Rank # 6
+Candidate 10001 - Eric Adams got 0 votes or 0,0000 % - Eliminated -
+Candidate 10002 - Shaun Donovan got 0 votes or 0,0000 % - Eliminated -
+Candidate 10003 - Kathryn Garcia got 250630 votes or 33,2785 % 
+Candidate 10004 - Raymond McGuire got 251184 votes or 33,3521 % 
+Candidate 10005 - Dianne Morales got 251315 votes or 33,3694 % 
+Candidate 10006 - Scott Stringer got 0 votes or 0,0000 % - Eliminated -
+Candidate 10007 - Maya Wiley got 0 votes or 0,0000 % - Eliminated -
+Candidate 10008 - Andrew Yang got 0 votes or 0,0000 % - Eliminated -
+Rank # 7
+Candidate 10001 - Eric Adams got 0 votes or 0,0000 % - Eliminated -
+Candidate 10002 - Shaun Donovan got 0 votes or 0,0000 % - Eliminated -
+Candidate 10003 - Kathryn Garcia got 0 votes or 0,0000 % - Eliminated -
+Candidate 10004 - Raymond McGuire got 291722 votes or 50,0010 % 
+Candidate 10005 - Dianne Morales got 291710 votes or 49,9990 % 
+Candidate 10006 - Scott Stringer got 0 votes or 0,0000 % - Eliminated -
+Candidate 10007 - Maya Wiley got 0 votes or 0,0000 % - Eliminated -
+Candidate 10008 - Andrew Yang got 0 votes or 0,0000 % - Eliminated -
+The ranked choice winner is Raymond McGuire. RunElection Exec time: 3427 ms
