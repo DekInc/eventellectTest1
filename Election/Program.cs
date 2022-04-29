@@ -26,7 +26,7 @@ namespace Election
 
         static void Main(string[] _)
         {
-            int numVoters = 1000000;
+            int numVoters = 100000;
             int totalVoters = numVoters + _candidates.Count;
             Stopwatch stopwatch = Stopwatch.StartNew();
             List<IVoter> voters = GenerateVoters(numVoters, totalVoters);
